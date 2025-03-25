@@ -1,0 +1,47 @@
+﻿<div class="card shadow-sm @AdditionalClass" @attributes=Attributes >
+    @if (Image != null)
+    {
+        <img src="@Image" class="card-img-top" />
+    }
+    <div class="card-body">
+        <h5 class="card-title">@Title</h5>
+        <p class="card-text">@Description</p>
+        @if (Footer != null)
+        {
+            <div class="d-flex justify-content-between align-items-center">
+                @Footer
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+        [Parameter]
+        public string? Image { get; set; }
+
+        [Parameter, EditorRequired]
+        public required string Title { get; set; }
+
+        [Parameter]
+        public RenderFragment Description { get; set; } =@<em>...</em>;
+
+        [Parameter]
+        public RenderFragment? Footer { get; set; }
+
+        [Parameter(CaptureUnmatchedValues = true)]
+        public Dictionary<string, object> Attr { get; set; } = new Dictionary<string, object>();
+
+        private IDictionary<string, object> Attributes => Attr.Where(pair => pair.Key!="class").ToDictionary();
+
+        private string AdditionalClass 
+        {
+            get
+            {
+                string? res = null;
+
+                if (Attr.TryGetValue("class", out var val))
+                    res = val.ToString();
+                return res ?? String.Empty;
+            }
+        }
+    }

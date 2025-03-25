@@ -1,23 +1,42 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+<CascadingValue Name="Language" Value="@_lang">
+<header>
+    <NavMenu />
+</header>
+<SectionOutlet SectionName="head" />
+<main>
+    <div class="album py-5 bg-light">
+        <div class="container">
             @Body
-        </article>
-    </main>
-</div>
+        </div>
+    </div>
+</main>
+<footer class="text-muted py-5">
+    <div class="container">
+        <SectionOutlet SectionName="foot"/>
+        <p class="float-end mb-1">
+            <a href="#">Haut de page</a>
+        </p>
+        <p class="mb-1">Site de partage de matériel pour les collaborateurs de l'entreprise.</p>
+    </div>
+</footer>
+</CascadingValue>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code
+{
+    private string _lang = "fr";
+
+    [SupplyParameterFromQuery(Name = "lang")]
+    public string? Lang 
+    {
+        get => _lang; 
+        set => _lang = value ?? "fr";
+    }
+}

@@ -1,0 +1,16 @@
+﻿@typeparam T
+
+@foreach(var val in Values)
+{
+    <span class="badge rounded-pill text-bg-@Color">@ItemTemplate(val)</span>
+}
+@code {
+    [Parameter, EditorRequired]
+    public required IEnumerable<T> Values { get; set; }
+
+    [Parameter, EditorRequired]
+    public required RenderFragment<T> ItemTemplate { get; set; }
+
+    [Parameter]
+    public string Color { get; set; } = "secondary";
+}

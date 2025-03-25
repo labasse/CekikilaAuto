@@ -5,6 +5,12 @@
                 <RedirectToLogin />
             </NotAuthorized>
         </AuthorizeRouteView>
-        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+        <FocusOnNavigate RouteData="routeData" Selector="input[type=text]" />
     </Found>
+    <NotFound>
+        <PageTitle>Oups</PageTitle>
+        <LayoutView Layout="@typeof(Layout.MainLayout)">
+            <p role="alert">Cette page n'existe plus.</p>
+        </LayoutView>
+    </NotFound>
 </Router>

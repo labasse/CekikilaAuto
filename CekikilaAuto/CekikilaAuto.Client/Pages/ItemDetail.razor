@@ -1,0 +1,83 @@
+﻿@page "/item/{Id:int=1}"
+@using CekikilaAuto.Client.Layout
+@using CekikilaWasm.Models
+
+@rendermode InteractiveWebAssembly
+
+@inject DataService data
+@inject ILogger<ItemDetail> log
+@inject NavigationManager nav
+
+@if (item == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <PageTitle>@item.Name (@Lang)</PageTitle>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <h1>@item.Name</h1>
+            <p>@item.Description</p>
+            <p>
+                <BadgeList Values="@item.Tags" Context="tag">
+                    <ItemTemplate>
+                        <strong @onclick="e => NavToTag(tag)">
+                            @tag
+                        </strong>
+                    </ItemTemplate>
+                </BadgeList>
+            </p>
+            @if (_displayAvailability)
+            {
+                <p>Dispos : ...</p>
+            }
+            <DateInterval 
+                MinDuration=@TimeSpan.FromDays(3)
+                @bind-Start="_start"
+                @bind-End="_end"/>
+            <p>@_start - @_end</p>
+        </div>
+    </div>
+}
+@code {
+    private DateOnly _start = DateOnly.FromDateTime(DateTime.Now);
+    private DateOnly _end = DateOnly.FromDateTime(DateTime.Now);
+
+    private void NavToTag(string tag)
+    {
+        nav.NavigateTo($"/tag/{tag}");
+    }
+
+    [Parameter]
+    public int Id 
+    { 
+        get => item?.Id ?? -1;
+        set
+        {
+            item = data.AllItems.FirstOrDefault(item => item.Id == value);
+            if(item == null)
+            {
+                log.LogWarning($"Unknown object {value}");
+                nav.NavigateTo("/404");
+            }
+            else
+            {
+                log.LogInformation($"Found {value}");
+            }
+        }
+    }
+
+    [SupplyParameterFromQuery(Name = "av")]
+    public string? DisplayAvailability { 
+        get => _displayAvailability ? "1":String.Empty;
+        set => _displayAvailability = value is not null; 
+    }
+
+    [CascadingParameter(Name = "Language")]
+    public required string Lang { get; set; }
+
+    private bool _displayAvailability = false; 
+
+    private Item? item;
+}
