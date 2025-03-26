@@ -33,39 +33,40 @@ else
                 <p>Dispos : ...</p>
             }
             <DateInterval 
-                MinDuration=@TimeSpan.FromDays(3)
-                @bind-Start="_start"
-                @bind-End="_end"/>
+            MinDuration=@TimeSpan.FromDays(3)
+            @bind-Start="_start"
+            @bind-End="_end"/>
             <p>@_start - @_end</p>
         </div>
     </div>
 }
 @code {
+    private Item? item = null;
+
+    // Initialisation qui dépend de paramètre(s) => OnParameterSet(Async)
+    protected override async Task OnParametersSetAsync()
+    {
+        item = await data.GetItemAsync(Id);
+        if (item == null)
+        {
+            log.LogWarning($"Unknown object {Id}");
+            nav.NavigateTo("/404");
+        }
+        else
+        {
+            log.LogInformation($"Found {Id}");
+        }
+    }
+
+    [Parameter]
+    public int Id { get; set; }
+
     private DateOnly _start = DateOnly.FromDateTime(DateTime.Now);
     private DateOnly _end = DateOnly.FromDateTime(DateTime.Now);
 
     private void NavToTag(string tag)
     {
         nav.NavigateTo($"/tag/{tag}");
-    }
-
-    [Parameter]
-    public int Id 
-    { 
-        get => item?.Id ?? -1;
-        set
-        {
-            item = data.AllItems.FirstOrDefault(item => item.Id == value);
-            if(item == null)
-            {
-                log.LogWarning($"Unknown object {value}");
-                nav.NavigateTo("/404");
-            }
-            else
-            {
-                log.LogInformation($"Found {value}");
-            }
-        }
     }
 
     [SupplyParameterFromQuery(Name = "av")]
@@ -78,6 +79,4 @@ else
     public required string Lang { get; set; }
 
     private bool _displayAvailability = false; 
-
-    private Item? item;
 }

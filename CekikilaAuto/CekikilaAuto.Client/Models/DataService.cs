@@ -9,8 +9,10 @@
             new() { Id=6, Name="Combinaison néoprenne T40", Tags = [ "Sport" ], Description = "Cette combinaison vous permettra de nager toute l'année ! Conçue en néoprène spécial pour plus de résistance pour l'enfilage et une glisse idéale !" }
         };
 
-        public IEnumerable<Item> AllItems => _items;
+        public Task<IEnumerable<Item>> GetAllItemsAsync() 
+            => Task.FromResult<IEnumerable<Item>>(_items);
 
-        public IEnumerable<Item> ItemsByTag(string tag) => _items.Where(item => item.Tags.Contains(tag));
+        public Task<Item?> GetItemAsync(int id)
+            => Task.FromResult(_items.FirstOrDefault(item => item.Id == id));
     }
 }

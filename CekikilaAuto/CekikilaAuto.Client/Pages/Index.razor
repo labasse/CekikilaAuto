@@ -15,31 +15,46 @@
 </SectionContent>
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    @foreach (var obj in data.AllItems)
+    @if(Items is null)
     {
-        <div class="col">
-            <Card 
+        <p>Chargement des objets...</p>
+    }
+    else
+    {
+        @foreach (var obj in Items)
+        {
+            <div class="col">
+                <Card 
                 Image=@string.Format("img/obj-{0}.jpg", obj.Id) 
                 Title=@obj.Name
                 style="border:1px solid #000"
                 class="exemple"
                 @onmousedown="e => UpdateTeaser(obj)"
                 @onmouseleave="ResetTeaser"
-            >
-                <Description>@obj.Description</Description>
-                <Footer>
-                    <div class="btn-group">
-                        <a href="item/@obj.Id" class="btn btn-sm btn-primary">Réserver</a>
-                        <button type="button" class="btn btn-sm btn-secondary">Voir dispo</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                </Footer>
-            </Card>
-        </div>
+                >
+                    <Description>@obj.Description</Description>
+                    <Footer>
+                        <div class="btn-group">
+                            <a href="item/@obj.Id" class="btn btn-sm btn-primary">Réserver</a>
+                            <button type="button" class="btn btn-sm btn-secondary">Voir dispo</button>
+                        </div>
+                        <small class="text-muted">9 mins</small>
+                    </Footer>
+                </Card>
+            </div>
+        }
     }
 </div>
 
 @code {
+    private IEnumerable<Item>? Items = null;
+
+    // Initialisation qui ne dépend pas des paramètres => OnInitialize(Async)
+    protected override async Task OnInitializedAsync()
+    {
+        Items = await data.GetAllItemsAsync();
+    }
+
     private void UpdateTeaser(Item item)
     {
         teaser = $"N'achète pas de {item.Name}, je l'ai";
@@ -49,6 +64,6 @@
         teaser = DefaultTeaser;
     }
     private const string DefaultTeaser = "Ne l'achète pas, je l'ai";
-    
+
     private string teaser = DefaultTeaser;
 }
