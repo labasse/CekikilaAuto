@@ -8,7 +8,7 @@
 
 <h3>Offer : @editedItem.Name</h3>
 
-<EditForm Model="editedItem">
+<EditForm EditContext="editContext">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -23,7 +23,13 @@
 </EditForm>
 
 @code {
-    private ItemDto editedItem = new ItemDto() { Name="?", Owner="?", Tags=[] };
+    private EditContext? editContext = null;
+    private ItemDto editedItem = new ItemDto() { Name="abc", Owner="?", Tags=[] };
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(editedItem);
+    }
 
     private IDisposable? registration = null;
 
@@ -38,7 +44,7 @@
         {
             registration = nav.RegisterLocationChangingHandler(async (args) =>
             {
-                if (!string.IsNullOrWhiteSpace(editedItem.Name))
+                if (editContext?.IsModified() ?? false)
                 {
                     var result = await js.InvokeAsync<bool>("confirm", "Votre formulaire n'est pas validé, continuer ?");
                     if (!result)

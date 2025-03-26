@@ -33,7 +33,7 @@ namespace CekikilaAuto
         public ActionResult<ItemDto> Get(int id) 
             => CheckId(id, item => Ok(item.ToDto()));
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult Post([FromBody] ItemDto dto)
         {
             var item = Item.FromDto(dto, Db.Users.First());
