@@ -5,4 +5,5 @@ namespace CekikilaAuto.Data;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
+    public DbSet<Item> Items { get; set; }
 }

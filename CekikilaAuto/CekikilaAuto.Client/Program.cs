@@ -1,6 +1,5 @@
 using CekikilaAuto.Client.Models;
 using CekikilaLib;
-using CekikilaWasm.Models;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
