@@ -20,7 +20,8 @@ namespace CekikilaAuto.Data
             Id = Id,
             Name = Name,
             Description = Description,
-            Tags = Tags.Split(", ")
+            Tags = Tags.Split(", "),
+            Owner = Owner.UserName ?? "?"
         };
 
         public static Item FromDto(ItemDto dto, ApplicationUser owner) => new Item

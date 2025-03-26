@@ -10,5 +10,7 @@
         }
 
         public required string[] Tags { get; set; }
+
+        public required string Owner { get; set; }
     }
 }
