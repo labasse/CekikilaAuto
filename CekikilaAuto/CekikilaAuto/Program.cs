@@ -5,6 +5,7 @@ using CekikilaAuto.Client.Pages;
 using CekikilaAuto.Components;
 using CekikilaAuto.Components.Account;
 using CekikilaAuto.Data;
+using CekikilaLib;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents()
     .AddAuthenticationStateSerialization();
 
+builder.Services.AddScoped<IItemsService, ServerItemService>();
 builder.Services.AddControllers();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();

@@ -1,0 +1,39 @@
+﻿@page "/offer"
+
+@implements IDisposable
+
+@inject NavigationManager nav
+@inject IJSRuntime js
+
+<h3>Offer : @Name</h3>
+
+<input type="text" @bind="Name" @bind:event="oninput"/>
+
+@code {
+    public string Name { get; set; } = "";
+
+    private IDisposable? registration = null;
+
+    public void Dispose()
+    {
+        registration?.Dispose();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender && RendererInfo.IsInteractive)
+        {
+            registration = nav.RegisterLocationChangingHandler(async (args) =>
+            {
+                if (!string.IsNullOrWhiteSpace(Name))
+                {
+                    var result = await js.InvokeAsync<bool>("confirm", "Votre formulaire n'est pas validé, continuer ?");
+                    if (!result)
+                    {
+                        args.PreventNavigation();
+                    }
+                }
+            });
+        }
+    }
+}

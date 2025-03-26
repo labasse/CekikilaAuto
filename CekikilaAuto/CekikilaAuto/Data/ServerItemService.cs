@@ -1,20 +1,17 @@
 ﻿using CekikilaLib;
+using Microsoft.EntityFrameworkCore;
 
 namespace CekikilaAuto.Data
 {
-    public class ServerItemService : IItemsService
+    public class ServerItemService(ApplicationDbContext Db) : IItemsService
     {
-        private readonly ItemDto[] _items = {
-            new() { Id=1, Name="Broyeur de végétaux"      , Tags = [ "Jardin", "Electrique" ], Description = "Broyeur électrique d'une puissance de 2800W et d'un diamètre de coupe maximum de 45 mm convient parfaitement à un usage régulier." },
-            new() { Id=4, Name="Paddle gonflable"         , Tags = [ "Sport" ], Description = "Idéal pour amener partout avec soit, les planches de paddle gonflable vous surprendront par leur rigidité une fois gonflée et leur compacité dans leur sac de rangement." },
-            new() { Id=3, Name="Taille haies électrique"  , Tags = [ "Jardin", "Electrique" ], Description = "Taille haies filaire idéal pour tailler de grandes haies avec facilité et en silence." },
-            new() { Id=6, Name="Combinaison néoprenne T40", Tags = [ "Sport" ], Description = "Cette combinaison vous permettra de nager toute l'année ! Conçue en néoprène spécial pour plus de résistance pour l'enfilage et une glisse idéale !" }
-        };
+        public async Task<IEnumerable<ItemDto>?> GetAllItemsAsync() 
+            => await Db.Items.Include(item => item.Owner).Select(item => item.ToDto()).ToListAsync();
 
-        public Task<IEnumerable<ItemDto>?> GetAllItemsAsync() 
-            => Task.FromResult<IEnumerable<ItemDto>?>(_items);
-
-        public Task<ItemDto?> GetItemAsync(int id)
-            => Task.FromResult(_items.FirstOrDefault(item => item.Id == id));
+        public async Task<ItemDto?> GetItemAsync(int id)
+            => (await Db.Items
+                    .Include(item => item.Owner)
+                    .FirstOrDefaultAsync(item => id == item.Id)
+                )?.ToDto();
     }
 }

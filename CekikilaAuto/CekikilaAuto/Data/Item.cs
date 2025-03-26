@@ -21,7 +21,7 @@ namespace CekikilaAuto.Data
             Name = Name,
             Description = Description,
             Tags = Tags.Split(", "),
-            Owner = Owner.UserName ?? "?"
+            Owner = Owner?.UserName ?? "?"
         };
 
         public static Item FromDto(ItemDto dto, ApplicationUser owner) => new Item

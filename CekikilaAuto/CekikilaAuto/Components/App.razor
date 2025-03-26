@@ -25,7 +25,7 @@
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
 
-    private IComponentRenderMode itWasmNoPrerender = new InteractiveWebAssemblyRenderMode(false);
+    //private IComponentRenderMode itWasmNoPrerender = new InteractiveWebAssemblyRenderMode(false);
     private IComponentRenderMode? PageRenderMode =>
-        HttpContext.AcceptsInteractiveRouting() ? itWasmNoPrerender : null;
+        HttpContext.AcceptsInteractiveRouting() ? InteractiveAuto : null;
 }
