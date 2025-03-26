@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CekikilaAuto", "CekikilaAuto\CekikilaAuto\CekikilaAuto.csproj", "{8C4340E9-5AB6-4A80-B5FD-5D39F7B5FC62}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CekikilaAuto.Client", "CekikilaAuto\CekikilaAuto.Client\CekikilaAuto.Client.csproj", "{D6D7A57F-BDC0-4910-8804-220F8223C9BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CekikilaLib", "CekikilaLib\CekikilaLib.csproj", "{3C00876D-E153-4C4F-AFE3-49990DE16BA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D6D7A57F-BDC0-4910-8804-220F8223C9BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6D7A57F-BDC0-4910-8804-220F8223C9BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6D7A57F-BDC0-4910-8804-220F8223C9BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C00876D-E153-4C4F-AFE3-49990DE16BA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C00876D-E153-4C4F-AFE3-49990DE16BA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C00876D-E153-4C4F-AFE3-49990DE16BA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C00876D-E153-4C4F-AFE3-49990DE16BA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

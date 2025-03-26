@@ -1,10 +1,11 @@
 ﻿@page "/item/{Id:int=1}"
 @using CekikilaAuto.Client.Layout
+@using CekikilaLib
 @using CekikilaWasm.Models
 
 @rendermode InteractiveWebAssembly
 
-@inject DataService data
+@inject IItemsService data
 @inject ILogger<ItemDetail> log
 @inject NavigationManager nav
 
@@ -41,7 +42,7 @@ else
     </div>
 }
 @code {
-    private Item? item = null;
+    private ItemDto? item = null;
 
     // Initialisation qui dépend de paramètre(s) => OnParameterSet(Async)
     protected override async Task OnParametersSetAsync()

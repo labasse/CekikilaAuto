@@ -1,8 +1,9 @@
 ﻿@page "/"
 @using CekikilaAuto.Client.Layout
+@using CekikilaLib
 @using CekikilaWasm.Models
 
-@inject DataService data
+@inject IItemsService data
 
 <SectionContent SectionName="head">
     <section class="px-2 py-5 text-center container-fluid">
@@ -47,7 +48,7 @@
 </div>
 
 @code {
-    private IEnumerable<Item>? Items = null;
+    private IEnumerable<ItemDto>? Items = null;
 
     // Initialisation qui ne dépend pas des paramètres => OnInitialize(Async)
     protected override async Task OnInitializedAsync()
@@ -55,7 +56,7 @@
         Items = await data.GetAllItemsAsync();
     }
 
-    private void UpdateTeaser(Item item)
+    private void UpdateTeaser(ItemDto item)
     {
         teaser = $"N'achète pas de {item.Name}, je l'ai";
     }
