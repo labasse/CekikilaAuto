@@ -1,16 +1,29 @@
 ﻿@page "/offer"
+@using CekikilaLib
 
 @implements IDisposable
 
 @inject NavigationManager nav
 @inject IJSRuntime js
 
-<h3>Offer : @Name</h3>
+<h3>Offer : @editedItem.Name</h3>
 
-<input type="text" @bind="Name" @bind:event="oninput"/>
+<EditForm Model="editedItem">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <InputText @bind-Value="editedItem.Name" class="form-control" />
+        <ValidationMessage For="@(() => editedItem.Name)" />
+    </div>
+
+    <button type="submit">Submit</button>
+
+</EditForm>
 
 @code {
-    public string Name { get; set; } = "";
+    private ItemDto editedItem = new ItemDto() { Name="?", Owner="?", Tags=[] };
 
     private IDisposable? registration = null;
 
@@ -25,7 +38,7 @@
         {
             registration = nav.RegisterLocationChangingHandler(async (args) =>
             {
-                if (!string.IsNullOrWhiteSpace(Name))
+                if (!string.IsNullOrWhiteSpace(editedItem.Name))
                 {
                     var result = await js.InvokeAsync<bool>("confirm", "Votre formulaire n'est pas validé, continuer ?");
                     if (!result)
